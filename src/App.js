@@ -11,6 +11,7 @@ class App extends React.Component {
     this.state = {
       allCourses: [],
       filteredCourses: [],
+      completedCourses: [],
       subjects: [],
       cartCourses: {}
     };
@@ -24,10 +25,14 @@ class App extends React.Component {
 
   async loadInitialState(){
     let courseURL = "http://mysqlcs639.cs.wisc.edu:53706/api/react/classes";
-    let courseData = await (await fetch(courseURL)).json()
-
-
-    this.setState({allCourses: courseData, filteredCourses: courseData, subjects: this.getSubjects(courseData)});
+    let courseData = await (await fetch(courseURL)).json();
+    let completeURL = "http://mysqlcs639.cs.wisc.edu:53706/api/react/students/5022025924/classes/completed";
+    let completeData = await (await fetch(completeURL)).json();
+    console.log(completeData);
+    console.log(completeData.data);
+    console.log(typeof(completeData.data[0]));
+    this.setState({allCourses: courseData, filteredCourses: courseData, completedCourses: completeData.data, subjects: this.getSubjects(courseData)});
+    
   }
 
 
@@ -133,7 +138,7 @@ class App extends React.Component {
 
   getCartData() {
     let cartData = [];
-
+    console.log(this.state.cartCourses);
     for(const courseKey of Object.keys(this.state.cartCourses)) {
       let course = this.state.allCourses.find((x) => {return x.number === courseKey})
 
@@ -141,6 +146,18 @@ class App extends React.Component {
     }
     return cartData;
   }
+
+  getCompletedData() {
+    let completedData = [];
+
+    for(const completed in this.state.completedCourses) {
+      let completedCourse = this.state.allCourses.find((x) => {return x.number === this.state.completedCourses[completed]})
+      completedData.push(completedCourse);
+    }
+    console.log(completedData);
+    return completedData;
+  }
+
 
   render() {
 
@@ -157,12 +174,17 @@ class App extends React.Component {
           <Tab eventKey="search" title="Search" style={{paddingTop: '5vh'}}>
             <Sidebar setCourses={(courses) => this.setCourses(courses)} courses={this.state.allCourses} subjects={this.state.subjects}/>
             <div style={{marginLeft: '20vw'}}>
-              <CourseArea data={this.state.filteredCourses} addCartCourse={(data) => this.addCartCourse(data)} removeCartCourse={(data) => this.removeCartCourse(data)} cartCourses={this.state.cartCourses}/>
+              <CourseArea data={this.state.filteredCourses} completed={false} addCartCourse={(data) => this.addCartCourse(data)} removeCartCourse={(data) => this.removeCartCourse(data)} cartCourses={this.state.cartCourses}/>
             </div>
           </Tab>
           <Tab eventKey="cart" title="Cart" style={{paddingTop: '5vh'}}>
             <div style={{marginLeft: '20vw'}}>
-              <CourseArea data={this.getCartData()} addCartCourse={(data) => this.addCartCourse(data)} removeCartCourse={(data) => this.removeCartCourse(data)} cartCourses={this.state.cartCourses}/>
+              <CourseArea data={this.getCartData()} completed={false} addCartCourse={(data) => this.addCartCourse(data)} removeCartCourse={(data) => this.removeCartCourse(data)} cartCourses={this.state.cartCourses}/>
+            </div>
+          </Tab>
+          <Tab eventKey="completedCourses" title="Completed Courses" style={{paddingTop: '5vh'}}>
+            <div style={{marginLeft: '20vw'}}>
+              <CourseArea data={this.getCompletedData()} completed={true} addCartCourse={(data) => this.addCartCourse(data)} removeCartCourse={(data) => this.removeCartCourse(data)} cartCourses={this.state.cartCourses}/>
             </div>
           </Tab>
         </Tabs>
@@ -172,3 +194,6 @@ class App extends React.Component {
 }
 
 export default App;
+
+
+/**/
