@@ -1,52 +1,42 @@
 class SearchAndFilter {
-  searchAndFilter(courses, search, subject, minimumCredits, maximumCredits) {
+  searchAndFilter(courses, search, subject, interest, minimumCredits, maximumCredits) {
 
-  
-    if(subject !== '' && search !== null) {
-      let coursesAfterSearch = [];
-
-      for(const course of courses) {
-        for(const keyword of course.keywords)
-        {
-          if(keyword.includes(search)){
-          coursesAfterSearch.push(course);
-          break;
-          }
-        } 
-      }
-      courses = coursesAfterSearch;
+    // check subject
+    if (subject !== "All") {
+      courses = courses.filter(course => 
+        course.subject === subject
+      );
     }
 
-
-    if(subject !== 'All') {
-      let coursesAfterSubject = [];
-
-      for(const course of courses) { 
-        if(course.subject === subject)
-          coursesAfterSubject.push(course);
-      }
-      courses = coursesAfterSubject;
+    if (interest !== "all") {
+      courses = courses.filter(course => 
+        course.keywords.filter(keyword =>
+          keyword.toLowerCase().includes(interest.toLowerCase()) 
+        ).length > 0
+      );
     }
 
-    if(minimumCredits !== '') {
-      let coursesAfterMinimumCredits = [];
-
-      for(const course of courses) { 
-        if(course.credits >= parseInt(minimumCredits))
-          coursesAfterMinimumCredits.push(course);
-      }
-      courses = coursesAfterMinimumCredits;
+    // check search
+    if (search != null && search !== "") {
+      courses = courses.filter(course => 
+        course.keywords.filter(keyword => 
+          keyword.toLowerCase().includes(search.toLowerCase())
+        ).length > 0
+      );
     }
 
-    if(maximumCredits !== '') {
-      let coursesAfterMaximumCredits = [];
-
-      for(const course of courses) { 
-        if(course.credits <= parseInt(maximumCredits))
-          coursesAfterMaximumCredits.push(course);
-      }
-      courses = coursesAfterMaximumCredits;
+    if (minimumCredits != null && minimumCredits !== "") {
+      courses = courses.filter(course => 
+        course.credits >= minimumCredits
+      );
     }
+    
+    if (maximumCredits != null && maximumCredits !== "") {
+      courses = courses.filter(course => 
+        course.credits <= maximumCredits
+      );
+    }
+    
 
     return courses;
   }

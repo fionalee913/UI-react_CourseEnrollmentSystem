@@ -14,25 +14,18 @@ class Sidebar extends React.Component {
     this.minimumCredits = React.createRef();
     this.maximumCredits = React.createRef();
     this.search = React.createRef();
+    this.interest = React.createRef();
   }
 
   setCourses() {
-    if(this.subject.current != null && this.minimumCredits.current != null && this.maximumCredits.current != null) {
-      this.props.setCourses(this.searchAndFilter.searchAndFilter(this.props.courses,this.search.current.value, this.subject.current.value, this.minimumCredits.current.value, this.maximumCredits.current.value));
-    }
+    //if(this.subject.current != null && this.interest.current != null && this.minimumCredits.current != null && this.maximumCredits.current != null) {
+      this.props.setCourses(this.searchAndFilter.searchAndFilter(this.props.courses,this.search.current.value, this.subject.current.value, this.interest.current.value, this.minimumCredits.current.value, this.maximumCredits.current.value));
+    //}
   }
 
   handleCreditsKeyDown(e) {
     if(['0','1','2','3','4','5','6','7','8','9','Backspace','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Tab'].indexOf(e.key) === -1)
       e.preventDefault();
-  }
-
-  handleSearchKeyDown(e) {
-    if(e.key === 'Enter') {
-      this.addTag(this.search.current.value);
-      this.search.current.value = '';
-      this.setCourses();
-    }
   }
 
   getSubjectOptions() {
@@ -45,7 +38,28 @@ class Sidebar extends React.Component {
     return subjectOptions;
   }
 
-  
+  getInterestOptions() {
+    let interestOptions = [];
+    let interests = [];
+
+    for (const subject of this.props.subjects) {
+      interests.push(subject.toLowerCase());
+    }
+
+    for (const course of this.props.courses) {
+      for (var keyword of course.keywords) {
+        if (interests.indexOf(keyword.toLowerCase()) < 0) {
+          interests.push(keyword.toLowerCase());
+        }
+      }
+    }
+
+    for (const interest of interests) {
+      interestOptions.push(<option key={interest}>{interest}</option>);
+    }
+
+    return interestOptions;
+  }
 
 
 
@@ -56,19 +70,24 @@ class Sidebar extends React.Component {
           <Card.Body>
             <Card.Title>Search and Filter</Card.Title>
             <Form>
-            <Form.Group controlId="formKeywords" onKeyDown={(e) => this.handleSearchKeyDown(e)} onChange={() => this.setCourses()} style={{width: '100%'}}>
+            <Form.Group controlId="formKeywords" onChange={() => this.setCourses()} style={{width: '100%'}}>
                 <Form.Label>Search</Form.Label>
                 <div style={{display: 'flex', flexDirection: 'row'}}>
                   <Form.Control type="text" placeholder="keyword search" autoComplete="off" ref={this.search}/>
                 </div>
               </Form.Group>
 
-
-
               <Form.Group controlId="formSubject">
                 <Form.Label>Subject</Form.Label>
-                <Form.Control as="select" ref={this.subject} onClick={() => this.setCourses()}>
+                <Form.Control as="select" ref={this.subject} onChange={() => this.setCourses()}>
                   {this.getSubjectOptions()}
+                </Form.Control>
+              </Form.Group>
+
+              <Form.Group controlId="formInterest">
+                <Form.Label>Interest Area</Form.Label>
+                <Form.Control as="select" ref={this.interest} onChange={() => this.setCourses()}>
+                  {this.getInterestOptions()}
                 </Form.Control>
               </Form.Group>
 

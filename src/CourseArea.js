@@ -33,14 +33,14 @@ class CourseArea extends React.Component {
     if (Array.isArray(this.props.data)){
      for(let i =0; i < this.props.data.length; i++){
       completed.push (
-        <Completed key={i} data={this.props.data[i]} courseKey={this.props.data[i].number} addCartCourse={(data) => this.props.addCartCourse(data)} removeCartCourse={(data) => this.props.removeCartCourse(data)} cartCourses={this.props.cartCourses}/>
+        <Completed key={i} data={this.props.data[i]} courseKey={this.props.data[i].number} />
       )
     }
   }
   else{
     for(const complete of Object.keys(this.props.data)){
       completed.push (
-        <Completed key={this.props.data[complete].number} data={this.props.data[complete]} courseKey={this.props.data[complete].number} addCartCourse={(data) => this.props.addCartCourse(data)} removeCartCourse={(data) => this.props.removeCartCourse(data)} cartCourses={this.props.cartCourses}/>
+        <Completed key={this.props.data[complete].number} data={this.props.data[complete]} />
       )
     }
   }
@@ -55,7 +55,7 @@ class CourseArea extends React.Component {
   render() {
     return (
       <div style={{margin: 5, marginTop: -5}}>
-        {this.getCourses()}
+        {this.props.completed ? this.getCompleted() : this.getCourses()}
       </div>
     )
   }

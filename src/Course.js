@@ -10,10 +10,8 @@ class Course extends React.Component {
     super(props);
     this.state = {
       expanded: false,
-      showModal: false,
-      completed: this.props.completed
+      showModal: false
     }
-    console.log(this.state.completed);
   }
 
   render() {
@@ -38,7 +36,7 @@ class Course extends React.Component {
             {this.getSections()}
           </Modal.Body>
           <Modal.Footer>
-            {this.state.completed ? null : this.getCourseButton()}
+            {this.getCourseButton()}
             <Button variant="secondary" onClick={() => this.closeModal()}>
               Close
             </Button>
@@ -75,7 +73,7 @@ class Course extends React.Component {
           <Card key={i}>
             <Accordion.Toggle as={Card.Header} variant="link" eventKey={i} style={{height: 63, display: 'flex', alignItems: 'center'}}>
               {"Section " + i}
-              {this.state.completed ? null : this.getSectionButton(i)}
+              {this.getSectionButton(i)}
             </Accordion.Toggle>
             <Accordion.Collapse eventKey={i}>
               <Card.Body>
@@ -177,7 +175,7 @@ class Course extends React.Component {
         <Card key={i}>
           <Accordion.Toggle as={Card.Header} variant="link" eventKey={i} style={{height: 63, display: 'flex', alignItems: 'center'}}>
             {i}
-            {this.state.completed ? null : this.getSubsectionButton(sectionKey, i)}
+            {this.getSubsectionButton(sectionKey, i)}
           </Accordion.Toggle>
           <Accordion.Collapse eventKey={i}>
             <Card.Body>
