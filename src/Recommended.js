@@ -2,18 +2,16 @@ import React from 'react';
 import './App.css';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+//import Form from 'react-bootstrap/Form';
 //import Accordion from 'react-bootstrap/Accordion';
 
-class Completed extends React.Component {
+class Recommended extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       expanded: false,
       showModal: false,
-      courseRating: "No Rating",
     }
-    this.rating = React.createRef();
   }
 
   render() {
@@ -28,13 +26,7 @@ class Completed extends React.Component {
           </Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{this.props.data.number} - {this.getCredits()}</Card.Subtitle>
           {this.getDescription()}
-          <Form>
-            <Form.Group controlId="ratings">
-              <Form.Control as="select" ref={this.rating} onChange={() => this.setRating(this.rating.current.value)}>
-                {this.getRatingOptions()}
-              </Form.Control>
-            </Form.Group>
-          </Form>
+            <p>Recommended because you gave a relevant course an above-average (≥3) rating!</p>
         </Card.Body>
       </Card>
     )
@@ -58,23 +50,6 @@ class Completed extends React.Component {
     )
   }
 
-  getRatingOptions() {
-    let ratings = [<option key="No Rating">No Rating</option>];
-
-    for (var i = 1; i <= 5; i++) {
-      ratings.push(<option key={i}>{i}</option>)
-    }
-
-    return ratings;
-  }
-
-  setRating() {
-    // add rated courses to this.props.ratedCourses(rated)
-    let rated = {"number":this.props.data.number, "rating":this.rating.current.value};
-    console.log(rated);
-    this.props.ratedCourse(rated);
-  }
-  
   getDescription() {
     if(this.state.expanded) {
       return (
@@ -93,7 +68,7 @@ class Completed extends React.Component {
   }
 }
 
-export default Completed;
+export default Recommended;
 
 
 

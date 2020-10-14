@@ -12,12 +12,11 @@ class App extends React.Component {
       allCourses: [],
       filteredCourses: [],
       completedCourses: [],
+      ratedCourses: [],
       subjects: [],
       cartCourses: {}
     };
   }
-
-
 
   componentDidMount() {
    this.loadInitialState()
@@ -28,10 +27,7 @@ class App extends React.Component {
     let courseData = await (await fetch(courseURL)).json();
     let completeURL = "http://mysqlcs639.cs.wisc.edu:53706/api/react/students/5022025924/classes/completed";
     let completeData = await (await fetch(completeURL)).json();
-    console.log(completeData);
-    console.log(completeData.data);
-    console.log(typeof(completeData.data[0]));
-    this.setState({allCourses: courseData, filteredCourses: courseData, completedCourses: completeData.data, subjects: this.getSubjects(courseData)});
+    this.setState({allCourses: courseData, filteredCourses: courseData, completedCourses: completeData.data, ratedCourses: [], subjects: this.getSubjects(courseData)});
     
   }
 
@@ -158,6 +154,24 @@ class App extends React.Component {
     return completedData;
   }
 
+  setRated(rated) {
+    // set rated course; pass this function down to CourseArea --> Completed?
+    // rated = {course number: "rating"}
+    // temp = [0:{course number: "rating"} 1:{course number: "rating"}]
+    let temp = this.state.ratedCourses;
+    
+    if (temp.length === 0) {
+      temp.push(rated);
+    }
+    else {
+      temp = temp.filter(c => c.number !== rated.number);
+      if (rated.rating !== "No Rating") {
+        temp.push(rated);
+      }
+    }
+    this.setState({ratedCourses: temp});
+    console.log(this.state.ratedCourses);
+  }
 
   render() {
 
@@ -174,17 +188,22 @@ class App extends React.Component {
           <Tab eventKey="search" title="Search" style={{paddingTop: '5vh'}}>
             <Sidebar setCourses={(courses) => this.setCourses(courses)} courses={this.state.allCourses} subjects={this.state.subjects}/>
             <div style={{marginLeft: '20vw'}}>
-              <CourseArea data={this.state.filteredCourses} completed={false} addCartCourse={(data) => this.addCartCourse(data)} removeCartCourse={(data) => this.removeCartCourse(data)} cartCourses={this.state.cartCourses}/>
+              <CourseArea data={this.state.filteredCourses} mode="courses" addCartCourse={(data) => this.addCartCourse(data)} removeCartCourse={(data) => this.removeCartCourse(data)} cartCourses={this.state.cartCourses}/>
             </div>
           </Tab>
           <Tab eventKey="cart" title="Cart" style={{paddingTop: '5vh'}}>
             <div style={{marginLeft: '20vw'}}>
-              <CourseArea data={this.getCartData()} completed={false} addCartCourse={(data) => this.addCartCourse(data)} removeCartCourse={(data) => this.removeCartCourse(data)} cartCourses={this.state.cartCourses}/>
+              <CourseArea data={this.getCartData()} mode="cart" addCartCourse={(data) => this.addCartCourse(data)} removeCartCourse={(data) => this.removeCartCourse(data)} cartCourses={this.state.cartCourses}/>
             </div>
           </Tab>
           <Tab eventKey="completedCourses" title="Completed Courses" style={{paddingTop: '5vh'}}>
             <div style={{marginLeft: '20vw'}}>
-              <CourseArea data={this.getCompletedData()} completed={true} addCartCourse={(data) => this.addCartCourse(data)} removeCartCourse={(data) => this.removeCartCourse(data)} cartCourses={this.state.cartCourses}/>
+              <CourseArea data={this.getCompletedData()} mode="completed" ratedCourses={(rated) => this.setRated(rated)} />
+            </div>
+          </Tab>
+          <Tab eventKey="recommendedCourses" title="Recommended Courses" style={{paddingTop: '5vh'}}>
+            <div style={{marginLeft: '20vw'}}>
+              <CourseArea data={this.state.ratedCourses} mode="recommended" allCourses={this.state.allCourses} completedCourses={this.getCompletedData()}/>
             </div>
           </Tab>
         </Tabs>
