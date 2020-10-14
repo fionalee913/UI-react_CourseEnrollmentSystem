@@ -18,10 +18,10 @@ class Completed extends React.Component {
 
   render() {
     return (
-      <Card style={{width: '33%', marginTop: '5px', marginBottom: '5px'}}>
+      <Card style={{marginTop: '5px', marginBottom: '5px'}}>
         <Card.Body>
-          <Card.Title>
-            <div style={{maxWidth: 250}}>
+        <Card.Title>
+            <div >
               {this.props.data.name}
             </div>
             {this.getExpansionButton()}
@@ -79,10 +79,46 @@ class Completed extends React.Component {
     if(this.state.expanded) {
       return (
         <div>
-          {this.props.data.description}
+          <p>Subject: {this.props.data.subject}</p>
+          <p>{this.props.data.description}</p>
+          <p><strong>Requisites: </strong>
+            {this.getRequisites()}
+          </p>
+          <p>Keywords: {this.props.data.keywords.toString()}</p>
         </div>
       )
     }
+  }
+
+  getRequisites() {
+    let requisites = "";
+    var reqData = this.props.data.requisites;
+
+    if(reqData.length === 0) {
+      requisites = <span>None</span>;
+      return requisites;
+    } else {
+      for(var r = 0; r < reqData.length; r++){
+        if(reqData[r].length === 0){
+          break;
+        }
+        requisites += "(";
+        for(var i = 0; i < reqData[r].length; i++){
+          if(i+1 === reqData[r].length) {
+            requisites += `${reqData[r][i]})`;
+          } else {
+            requisites += `${reqData[r][i]} OR `;
+          }
+        }
+        
+        if (r+1 === reqData.length) {
+          break;
+        } else {
+          requisites += " AND ";
+        }
+      }      
+    }
+    return requisites;
   }
 
   getCredits() {

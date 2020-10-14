@@ -10,7 +10,7 @@ class SearchAndFilter {
 
     if (interest !== "all") {
       courses = courses.filter(course => 
-        course.keywords.filter(keyword =>
+        course.subject.toLowerCase().includes(interest.toLowerCase()) || course.keywords.filter(keyword =>
           keyword.toLowerCase().includes(interest.toLowerCase()) 
         ).length > 0
       );

@@ -11,14 +11,16 @@ class CourseArea extends React.Component {
     if (Array.isArray(this.props.data)){
         for(let i =0; i < this.props.data.length; i++){
           courses.push (
-              <Course key={i} data={this.props.data[i]} completed={this.props.completed} courseKey={this.props.data[i].number} addCartCourse={(data) => this.props.addCartCourse(data)} removeCartCourse={(data) => this.props.removeCartCourse(data)} cartCourses={this.props.cartCourses}/>
+              <Course key={i} data={this.props.data[i]} courseKey={this.props.data[i].number} addCartCourse={(data) => this.props.addCartCourse(data)} removeCartCourse={(data) => this.props.removeCartCourse(data)} 
+                completedCourses={this.props.completedCourses} cartCourses={this.props.cartCourses}/>
           )
         }
     }
   else{
     for(const course of Object.keys(this.props.data)){
       courses.push (
-        <Course key={this.props.data[course].number} data={this.props.data[course]} completed={this.props.completed} courseKey={this.props.data[course].number} addCartCourse={(data) => this.props.addCartCourse(data)} removeCartCourse={(data) => this.props.removeCartCourse(data)} cartCourses={this.props.cartCourses}/>
+        <Course key={this.props.data[course].number} data={this.props.data[course]} courseKey={this.props.data[course].number} addCartCourse={(data) => this.props.addCartCourse(data)} 
+        completedCourses={this.props.completedCourses} removeCartCourse={(data) => this.props.removeCartCourse(data)} cartCourses={this.props.cartCourses}/>
       )
     }
   }

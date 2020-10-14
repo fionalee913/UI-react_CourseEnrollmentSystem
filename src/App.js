@@ -188,7 +188,8 @@ class App extends React.Component {
           <Tab eventKey="search" title="Search" style={{paddingTop: '5vh'}}>
             <Sidebar setCourses={(courses) => this.setCourses(courses)} courses={this.state.allCourses} subjects={this.state.subjects}/>
             <div style={{marginLeft: '20vw'}}>
-              <CourseArea data={this.state.filteredCourses} mode="courses" addCartCourse={(data) => this.addCartCourse(data)} removeCartCourse={(data) => this.removeCartCourse(data)} cartCourses={this.state.cartCourses}/>
+              <CourseArea data={this.state.filteredCourses} mode="courses" addCartCourse={(data) => this.addCartCourse(data)} removeCartCourse={(data) => this.removeCartCourse(data)} 
+                completedCourses={this.state.completedCourses} cartCourses={this.state.cartCourses}/>
             </div>
           </Tab>
           <Tab eventKey="cart" title="Cart" style={{paddingTop: '5vh'}}>

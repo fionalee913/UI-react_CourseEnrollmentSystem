@@ -16,17 +16,17 @@ class Recommended extends React.Component {
 
   render() {
     return (
-      <Card style={{width: '33%', marginTop: '5px', marginBottom: '5px'}}>
+      <Card style={{marginTop: '5px', marginBottom: '5px'}}>
         <Card.Body>
-          <Card.Title>
-            <div style={{maxWidth: 250}}>
+        <Card.Title>
+            <div >
               {this.props.data.name}
             </div>
             {this.getExpansionButton()}
           </Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{this.props.data.number} - {this.getCredits()}</Card.Subtitle>
-          {this.getDescription()}
-            <p>Recommended because you gave a relevant course an above-average (≥3) rating!</p>
+            <p><strong>Recommended because you gave a relevant course an above-average (≥3) rating!</strong></p>
+            {this.getDescription()}
         </Card.Body>
       </Card>
     )
