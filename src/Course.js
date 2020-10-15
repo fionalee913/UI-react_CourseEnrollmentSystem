@@ -30,7 +30,7 @@ class Course extends React.Component {
           {this.getDescription()}
           <Button variant='dark' style={{float: "right"}} onClick={() => this.openModal()}>View sections</Button>
         </Card.Body>
-        <Modal show={this.state.showModal} onHide={() => this.closeModal()} centered size="lg" block>
+        <Modal show={this.state.showModal} onHide={() => this.closeModal()} centered size="lg" >
           <Modal.Header closeButton>
             <Modal.Title>{this.props.data.name}</Modal.Title>
           </Modal.Header>
@@ -141,7 +141,7 @@ class Course extends React.Component {
     for (const requisite of this.props.data.requisites) {
       let meet = false;
       for (const complete of completed) {
-        if (complete.number === requisite) {
+        if (requisite.includes(complete)) {
           meet = true;
           break;
         }

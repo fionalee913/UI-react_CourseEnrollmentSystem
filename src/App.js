@@ -134,10 +134,8 @@ class App extends React.Component {
 
   getCartData() {
     let cartData = [];
-    console.log(this.state.cartCourses);
     for(const courseKey of Object.keys(this.state.cartCourses)) {
       let course = this.state.allCourses.find((x) => {return x.number === courseKey})
-
       cartData.push(course);
     }
     return cartData;
@@ -150,7 +148,6 @@ class App extends React.Component {
       let completedCourse = this.state.allCourses.find((x) => {return x.number === this.state.completedCourses[completed]})
       completedData.push(completedCourse);
     }
-    console.log(completedData);
     return completedData;
   }
 
@@ -170,7 +167,6 @@ class App extends React.Component {
       }
     }
     this.setState({ratedCourses: temp});
-    console.log(this.state.ratedCourses);
   }
 
   render() {

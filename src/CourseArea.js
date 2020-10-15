@@ -59,15 +59,13 @@ class CourseArea extends React.Component {
     let ratedCourses = [];
     let interestArea = [];
 
-    console.log(this.props.data);
     // extract interest areas
     for (const r of rated) {
-      console.log(r);
       if (r.rating >= 3) {
         ratedCourses.push(completedCourses.find(course => {return course.number === r.number}));
       }
     }
-    console.log(ratedCourses);
+
     for (const course of ratedCourses) {
       if (!interestArea.includes(course.subject.toLowerCase())) {
         interestArea.push(course.subject.toLowerCase());
@@ -78,7 +76,6 @@ class CourseArea extends React.Component {
         }
       }
     }
-    console.log(interestArea);
 
     // incompleted courses in same areas
     allCourses = allCourses.filter(c => !completedCourses.includes(c));
@@ -94,14 +91,11 @@ class CourseArea extends React.Component {
         }
       }
     }
-    
-    console.log(recCourses);
     return recCourses;
   }
 
   getRecommended() {
     let recCourses = this.getRecommendedCourses();
-    console.log(recCourses);
     let recommendedCourses = [];
 
     for (const course of recCourses) {
@@ -116,10 +110,8 @@ class CourseArea extends React.Component {
     if (this.props.mode === "courses" || this.props.mode === "cart") {
       return this.getCourses();
     } else if (this.props.mode === "completed") {
-      console.log("completed");
       return this.getCompleted();
     } else {
-      console.log("recommended");
       return this.getRecommended();
     }
   }

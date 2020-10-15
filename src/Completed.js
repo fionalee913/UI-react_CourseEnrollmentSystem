@@ -71,7 +71,6 @@ class Completed extends React.Component {
   setRating() {
     // add rated courses to this.props.ratedCourses(rated)
     let rated = {"number":this.props.data.number, "rating":this.rating.current.value};
-    console.log(rated);
     this.props.ratedCourse(rated);
   }
   
