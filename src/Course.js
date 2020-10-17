@@ -12,7 +12,9 @@ class Course extends React.Component {
     this.state = {
       expanded: false,
       showModal: false,
-      showAlert: false
+      showAlert: false,
+      removeAlert: false,
+      requisitePath: []
     }
   }
 
@@ -36,7 +38,8 @@ class Course extends React.Component {
           </Modal.Header>
           <Alert show={this.state.showAlert} variant="danger">
             <Alert.Heading>You are not able to enroll this course!</Alert.Heading>
-            <p>You are not able to enroll this course because you have not met the requsites of this course.</p>
+            <p>You are not able to enroll this course because you have not met the following requsites of this course: </p>
+            {this.getRequisites(this.state.requisitePath)}
             <div className="d-flex justify-content-end">
                 <Button onClick={() => this.setState({showAlert: false})} variant="outline-danger">
                   Got it!
@@ -53,6 +56,20 @@ class Course extends React.Component {
             </Button>
           </Modal.Footer>
         </Modal>
+        <Modal show={this.state.removeAlert} onHide={() => this.closeAlert()}>
+          <Modal.Header closeButton>
+            <Modal.Title>{this.props.data.name}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Do you want to remove this course from your cart?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={() => this.removeCourse()}>
+              Yes
+            </Button>
+            <Button variant="secondary" onClick={() => this.closeAlert()}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Card>
     )
   }
@@ -64,7 +81,7 @@ class Course extends React.Component {
 
     if(this.props.courseKey in this.props.cartCourses) {
       buttonVariant = 'outline-dark';
-      buttonOnClick = () => this.removeCourse();
+      buttonOnClick = () => {this.setState({removeAlert: true})};
       buttonText = 'Remove Course'
     }
 
@@ -137,6 +154,8 @@ class Course extends React.Component {
 
   checkRequisites() {
     let completed = this.props.completedCourses;
+    let unmet = [];
+    console.log(this.props.completedCourses);
     let allMeet = true;
     for (const requisite of this.props.data.requisites) {
       let meet = false;
@@ -147,12 +166,13 @@ class Course extends React.Component {
         }
       }
       if (!meet) {
+        unmet.push(requisite);
         allMeet = false;
-        break;
       }
     }
 
     if (!allMeet) {
+      this.setState({requisitePath: unmet});
       this.setState({showAlert: true});
     }
   }
@@ -167,6 +187,7 @@ class Course extends React.Component {
   }
 
   removeCourse() {
+    
     this.props.removeCartCourse (
       {
         course: this.props.courseKey
@@ -277,6 +298,14 @@ class Course extends React.Component {
     this.setState({showModal: false});
   }
 
+  openAlert() {
+    this.setState({removeAlert: true});
+  }
+
+  closeAlert() {
+    this.setState({removeAlert: false});
+  }
+
   setExpanded(value) {
     this.setState({expanded: value});
   }
@@ -302,7 +331,7 @@ class Course extends React.Component {
           <p>Subject: {this.props.data.subject}</p>
           <p>{this.props.data.description}</p>
           <p><strong>Requisites: </strong>
-            {this.getRequisites()}
+            {this.getRequisites(this.props.data.requisites)}
           </p>
           <p>Keywords: {this.props.data.keywords.toString()}</p>
         </div>
@@ -310,9 +339,9 @@ class Course extends React.Component {
     }
   }
 
-  getRequisites() {
+  getRequisites(reqData) {
     let requisites = "";
-    var reqData = this.props.data.requisites;
+    //var reqData = this.props.data.requisites;
 
     if(reqData.length === 0) {
       requisites = <span>None</span>;

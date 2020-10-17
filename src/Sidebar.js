@@ -61,10 +61,27 @@ class Sidebar extends React.Component {
     return interestOptions;
   }
 
-
+  ratingInfo() {
+    return(
+    <Card style={{width: 'calc(20vw - 5px)', marginLeft: '5px', height: 'calc(100vh - 52px)', position: 'fixed'}}>
+      <Card.Body>
+        <Card.Title>
+          About ratings
+        </Card.Title>
+        <div>
+          <p>You can rate the courses that you have taken. </p>
+          <p>1 = I hate this course. <br/> 5 = It is the best course I have ever taken!</p>
+        </div>
+      </Card.Body>
+    </Card>
+    )
+  }
 
   render() {
     return (
+      (this.props.mode === "ratingInfo" ? 
+      <>{this.ratingInfo()}</>
+       : 
       <>
         <Card style={{width: 'calc(20vw - 5px)', marginLeft: '5px', height: 'calc(100vh - 52px)', position: 'fixed'}}>
           <Card.Body>
@@ -105,6 +122,7 @@ class Sidebar extends React.Component {
           </Card.Body>
         </Card>
       </>
+      )
     )
   }
 }

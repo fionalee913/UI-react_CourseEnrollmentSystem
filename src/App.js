@@ -182,7 +182,7 @@ class App extends React.Component {
 
         <Tabs defaultActiveKey="search" style={{position: 'fixed', zIndex: 1, width: '100%', backgroundColor: 'white'}}>
           <Tab eventKey="search" title="Search" style={{paddingTop: '5vh'}}>
-            <Sidebar setCourses={(courses) => this.setCourses(courses)} courses={this.state.allCourses} subjects={this.state.subjects}/>
+            <Sidebar mode="searchFilter"setCourses={(courses) => this.setCourses(courses)} courses={this.state.allCourses} subjects={this.state.subjects}/>
             <div style={{marginLeft: '20vw'}}>
               <CourseArea data={this.state.filteredCourses} mode="courses" addCartCourse={(data) => this.addCartCourse(data)} removeCartCourse={(data) => this.removeCartCourse(data)} 
                 completedCourses={this.state.completedCourses} cartCourses={this.state.cartCourses}/>
@@ -194,6 +194,7 @@ class App extends React.Component {
             </div>
           </Tab>
           <Tab eventKey="completedCourses" title="Completed Courses" style={{paddingTop: '5vh'}}>
+            <Sidebar mode="ratingInfo"/>
             <div style={{marginLeft: '20vw'}}>
               <CourseArea data={this.getCompletedData()} mode="completed" ratedCourses={(rated) => this.setRated(rated)} />
             </div>
