@@ -175,6 +175,7 @@ class Course extends React.Component {
       this.setState({requisitePath: unmet});
       this.setState({showAlert: true});
     }
+    return allMeet;
   }
 
   addCourse() {
@@ -197,7 +198,7 @@ class Course extends React.Component {
 
   addSection(e, section) {
     e.stopPropagation();
-    this.checkRequisites();
+    if (this.checkRequisites() === false) return;
     this.props.addCartCourse (
       {
         course: this.props.courseKey,
@@ -218,7 +219,7 @@ class Course extends React.Component {
 
   addSubsection(e, section, subsection) {
     e.stopPropagation();
-    this.checkRequisites();
+    if(this.checkRequisites() === false) return;
     this.props.addCartCourse (
       {
         course: this.props.courseKey,
