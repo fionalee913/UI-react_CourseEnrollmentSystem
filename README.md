@@ -1,9 +1,9 @@
 <<<<<<< HEAD
-# Assignment: React 2 β (3 Points Total)
+### Assignment: React 2 β (3 Points Total)
 
 Please refer to the [Canvas Assignment](https://canvas.wisc.edu/courses/219500/assignments/910617) and [Google Doc](https://docs.google.com/document/d/1xI0ktDjy98_PrU5YjXkcwzOJLd6CajJK9Ed3apRUZDg/edit) for instructions on completing this assignment. You should copy your code from your React 2 α project to this repository, as that will be your starter code. When you commit and push, ensure that you are commiting and pushing to this react2-beta repository, not react2-alpha. Your deliverable will be the completed Google Doc, attached to the canvas assignment as a PDF, and the GitHub Classroom repository name and latest commit hash.
 =======
-# Homework: React 2 α (6 Points Total) 
+### Homework: React 2 α (6 Points Total) 
 
 This assignment is meant to introduce you to more features of React. This is the second α, feature based, assignment in which you will extend the features of a course scheduling application. This application uses a limited quantity of modified data from the UW Madison course information database. With this assignment, you will extend the features of react1 α to create a course recommendation system.
 
